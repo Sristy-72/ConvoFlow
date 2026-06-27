@@ -33,7 +33,14 @@ function Homepage() {
         borderColor="rgba(226, 232, 240, 0.6)"
         boxShadow="0 22px 70px rgba(0, 0, 0, 0.32)"
       >
-        <Text fontSize="4xl" fontFamily="Work sans" fontWeight="700">
+        <Text
+          fontSize="4xl"
+          fontFamily="Work sans"
+          fontWeight="700"
+          display="flex"
+          justifyContent="center"
+          margin="7px"
+        >
           ConvoFlow
         </Text>
         <Tabs isFitted variant="soft-rounded" colorScheme="cyan">
