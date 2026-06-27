@@ -16,8 +16,9 @@ const Chatpage = () => {
         display="flex"
         justifyContent="space-between"
         w="100%"
-        h="91.5vh"
-        p="10px"
+        h="calc(100vh - 68px)"
+        p={{ base: 2, md: 4 }}
+        gap={{ base: 2, md: 4 }}
       >
         {user && <MyChats fetchAgain={fetchAgain} />}
         {user && (

@@ -10,7 +10,7 @@ import {
 import "./styles.css";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import { useCallback, useEffect, useRef, useState } from "react";
-import axios from "axios";
+import api from "../config/axios";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
@@ -56,7 +56,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
       setLoading(true);
 
-      const { data } = await axios.get(
+      const { data } = await api.get(
         `/api/message/${selectedChat._id}`,
         config,
       );
@@ -92,7 +92,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
         };
         setNewMessage("");
-        const { data } = await axios.post(
+        const { data } = await api.post(
           "/api/message",
           {
             content: messageToSend,
@@ -105,7 +105,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       } catch (error) {
         toast({
           title: "Error Occured!",
-          description: error.response?.data?.message || "Failed to send the Message",
+          description:
+            error.response?.data?.message || "Failed to send the Message",
           status: "error",
           duration: 5000,
           isClosable: true,
@@ -193,11 +194,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       {selectedChat ? (
         <>
           <Text
-            fontSize={{ base: "28px", md: "30px" }}
+            fontSize={{ base: "24px", md: "26px" }}
             pb={3}
             px={2}
             w="100%"
             fontFamily="Work sans"
+            fontWeight="700"
+            color="white"
             display="flex"
             justifyContent={{ base: "space-between" }}
             alignItems="center"
@@ -206,6 +209,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               display={{ base: "flex", md: "none" }}
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
+              colorScheme="whiteAlpha"
+              borderRadius="8px"
             />
             {messages &&
               (!selectedChat.isGroupChat ? (
@@ -231,11 +236,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             flexDir="column"
             justifyContent="flex-end"
             p={3}
-            bg="#E8E8E8"
             w="100%"
             h="100%"
-            borderRadius="lg"
+            borderRadius="8px"
             overflowY="hidden"
+            bg="rgba(2, 6, 23, 0.38)"
+            borderWidth="1px"
+            borderColor="rgba(148, 163, 184, 0.18)"
+            backdropFilter="blur(4px)"
           >
             {loading ? (
               <Spinner
@@ -271,8 +279,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               )}
               <Input
                 variant="filled"
-                bg="#E0E0E0"
+                bg="rgba(15, 23, 42, 0.92)"
+                color="white"
+                borderWidth="1px"
+                borderColor="rgba(148, 163, 184, 0.25)"
+                borderRadius="8px"
                 placeholder="Enter a message.."
+                _placeholder={{ color: "rgba(226, 232, 240, 0.58)" }}
+                _hover={{ bg: "rgba(15, 23, 42, 0.98)" }}
+                _focus={{
+                  bg: "rgba(15, 23, 42, 0.98)",
+                  borderColor: "#38bdf8",
+                }}
                 value={newMessage}
                 onChange={typingHandler}
               />
@@ -286,8 +304,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           alignItems="center"
           justifyContent="center"
           h="100%"
+          color="white"
+          textAlign="center"
         >
-          <Text fontSize="3xl" pb={3} fontFamily="Work sans">
+          <Text fontSize="3xl" pb={3} fontFamily="Work sans" fontWeight="700">
             Click on a user to start chatting
           </Text>
         </Box>

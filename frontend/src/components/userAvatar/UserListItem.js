@@ -5,19 +5,22 @@ const UserListItem = ({ user, handleFunction }) => {
     <Box
       onClick={handleFunction}
       cursor="pointer"
-      bg="#E8E8E8"
+      bg="rgba(15, 23, 42, 0.86)"
       _hover={{
-        background: "#38B2AC",
+        background: "rgba(8, 145, 178, 0.8)",
         color: "white",
+        borderColor: "rgba(103, 232, 249, 0.5)",
       }}
       w="100%"
       display="flex"
       alignItems="center"
-      color="black"
+      color="white"
       px={3}
       py={2}
       mb={2}
-      borderRadius="lg"
+      borderRadius="8px"
+      borderWidth="1px"
+      borderColor="rgba(148, 163, 184, 0.18)"
     >
       <Avatar
         mr={2}
@@ -27,8 +30,8 @@ const UserListItem = ({ user, handleFunction }) => {
         src={user.pic}
       />
       <Box>
-        <Text>{user.name}</Text>
-        <Text fontSize="xs">
+        <Text fontWeight="700">{user.name}</Text>
+        <Text fontSize="xs" color="rgba(226, 232, 240, 0.78)">
           <b>Email : </b>
           {user.email}
         </Text>

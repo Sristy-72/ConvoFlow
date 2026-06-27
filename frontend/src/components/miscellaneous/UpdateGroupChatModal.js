@@ -16,7 +16,7 @@ import {
   IconButton,
   Spinner,
 } from "@chakra-ui/react";
-import axios from "axios";
+import api from "../../config/axios";
 import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
@@ -45,7 +45,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`/api/user?search=${query}`, config);
+      const { data } = await api.get(`/api/user?search=${query}`, config);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -71,13 +71,13 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.put(
+      const { data } = await api.put(
         `/api/chat/rename`,
         {
           chatId: selectedChat._id,
           chatName: groupChatName,
         },
-        config
+        config,
       );
 
       setSelectedChat(data);
@@ -127,13 +127,13 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.put(
+      const { data } = await api.put(
         `/api/chat/groupadd`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
         },
-        config
+        config,
       );
 
       setSelectedChat(data);
@@ -172,13 +172,13 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.put(
+      const { data } = await api.put(
         `/api/chat/groupremove`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
         },
-        config
+        config,
       );
 
       user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
@@ -205,13 +205,15 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
         display={{ base: "flex" }}
         icon={<ViewIcon />}
         onClick={onOpen}
+        colorScheme="whiteAlpha"
+        borderRadius="8px"
       />
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay bg="blackAlpha.700" />
+        <ModalContent bg="#0f172a" color="white" borderRadius="8px">
           <ModalHeader
-            fontSize="35px"
+            fontSize="28px"
             fontFamily="Work sans"
             display="flex"
             justifyContent="center"
@@ -235,6 +237,11 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
               <Input
                 placeholder="Chat Name"
                 mb={3}
+                bg="rgba(15, 23, 42, 0.92)"
+                borderColor="rgba(148, 163, 184, 0.25)"
+                borderRadius="8px"
+                _placeholder={{ color: "rgba(226, 232, 240, 0.58)" }}
+                _focus={{ borderColor: "#38bdf8" }}
                 value={groupChatName}
                 onChange={(e) => setGroupChatName(e.target.value)}
               />
@@ -244,6 +251,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
                 ml={1}
                 isLoading={renameloading}
                 onClick={handleRename}
+                borderRadius="8px"
               >
                 Update
               </Button>
@@ -252,6 +260,11 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
               <Input
                 placeholder="Add User to group"
                 mb={1}
+                bg="rgba(15, 23, 42, 0.92)"
+                borderColor="rgba(148, 163, 184, 0.25)"
+                borderRadius="8px"
+                _placeholder={{ color: "rgba(226, 232, 240, 0.58)" }}
+                _focus={{ borderColor: "#38bdf8" }}
                 onChange={(e) => handleSearch(e.target.value)}
               />
             </FormControl>
@@ -269,7 +282,11 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
             )}
           </ModalBody>
           <ModalFooter>
-            <Button onClick={() => handleRemove(user)} colorScheme="red">
+            <Button
+              onClick={() => handleRemove(user)}
+              colorScheme="red"
+              borderRadius="8px"
+            >
               Leave Group
             </Button>
           </ModalFooter>

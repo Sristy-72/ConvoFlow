@@ -13,7 +13,7 @@ import {
   useToast,
   Box,
 } from "@chakra-ui/react";
-import axios from "axios";
+import api from "../../config/axios";
 import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
@@ -57,7 +57,7 @@ const GroupChatModal = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`/api/user?search=${query}`, config);
+      const { data } = await api.get(`/api/user?search=${query}`, config);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -95,13 +95,13 @@ const GroupChatModal = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(
+      const { data } = await api.post(
         `/api/chat/group`,
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),
         },
-        config
+        config,
       );
       setChats([data, ...chats]);
       setGroupChatName("");
@@ -132,10 +132,10 @@ const GroupChatModal = ({ children }) => {
       <span onClick={onOpen}>{children}</span>
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay bg="blackAlpha.700" />
+        <ModalContent bg="#0f172a" color="white" borderRadius="8px">
           <ModalHeader
-            fontSize="35px"
+            fontSize="28px"
             fontFamily="Work sans"
             display="flex"
             justifyContent="center"
@@ -148,13 +148,23 @@ const GroupChatModal = ({ children }) => {
               <Input
                 placeholder="Chat Name"
                 mb={3}
+                bg="rgba(15, 23, 42, 0.92)"
+                borderColor="rgba(148, 163, 184, 0.25)"
+                borderRadius="8px"
+                _placeholder={{ color: "rgba(226, 232, 240, 0.58)" }}
+                _focus={{ borderColor: "#38bdf8" }}
                 onChange={(e) => setGroupChatName(e.target.value)}
               />
             </FormControl>
             <FormControl>
               <Input
-                placeholder="Add Users eg: John, Piyush, Jane"
+                placeholder="Add Users eg: Sristy, Katty, jack"
                 mb={1}
+                bg="rgba(15, 23, 42, 0.92)"
+                borderColor="rgba(148, 163, 184, 0.25)"
+                borderRadius="8px"
+                _placeholder={{ color: "rgba(226, 232, 240, 0.58)" }}
+                _focus={{ borderColor: "#38bdf8" }}
                 onChange={(e) => handleSearch(e.target.value)}
               />
             </FormControl>
@@ -183,7 +193,14 @@ const GroupChatModal = ({ children }) => {
             )}
           </ModalBody>
           <ModalFooter>
-            <Button onClick={handleSubmit} colorScheme="blue">
+            <Button
+              onClick={handleSubmit}
+              colorScheme="cyan"
+              bg="#0891b2"
+              color="white"
+              borderRadius="8px"
+              _hover={{ bg: "#0e7490" }}
+            >
               Create Chat
             </Button>
           </ModalFooter>

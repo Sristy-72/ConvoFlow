@@ -23,23 +23,35 @@ function Homepage() {
   }, [history]);
 
   return (
-    <Container maxW="xl" centerContent>
+    <Container maxW="xl" centerContent py={{ base: 6, md: 10 }}>
       <Box
         display="flex"
         justifyContent="center"
-        p={3}
-        bg="white"
+        p={4}
+        bg="rgba(15, 23, 42, 0.78)"
+        color="white"
         w="100%"
-        m="40px 0 15px 0"
-        borderRadius="lg"
+        m="20px 0 15px 0"
+        borderRadius="8px"
         borderWidth="1px"
+        borderColor="rgba(148, 163, 184, 0.24)"
+        boxShadow="0 22px 70px rgba(0, 0, 0, 0.35)"
+        backdropFilter="blur(18px)"
       >
-        <Text fontSize="4xl" fontFamily="Work sans">
+        <Text fontSize="4xl" fontFamily="Work sans" fontWeight="700">
           ConvoFlow
         </Text>
       </Box>
-      <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
-        <Tabs isFitted variant="soft-rounded">
+      <Box
+        bg="#07111f"
+        w="100%"
+        p={4}
+        borderRadius="8px"
+        borderWidth="1px"
+        borderColor="rgba(226, 232, 240, 0.6)"
+        boxShadow="0 22px 70px rgba(0, 0, 0, 0.32)"
+      >
+        <Tabs isFitted variant="soft-rounded" colorScheme="cyan">
           <TabList mb="1em">
             <Tab>Login</Tab>
             <Tab>Sign Up</Tab>

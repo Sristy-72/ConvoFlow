@@ -5,17 +5,21 @@
   display: flex;
   background-position: center;
   background-size: cover;
+  background-color: #07111f;
+  background-blend-mode: multiply;
+  color: #e5edf7;
 }
 
 ::-webkit-scrollbar {
-  width: 0px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(136, 136, 136, 0.281);
+  background: rgba(148, 163, 184, 0.45);
+  border-radius: 999px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #38bdf8;
 }

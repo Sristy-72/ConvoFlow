@@ -9,7 +9,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import axios from "axios";
+import api from "../../config/axios";
 import { useHistory } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
 
@@ -45,10 +45,10 @@ const Login = () => {
         },
       };
 
-      const { data } = await axios.post(
+      const { data } = await api.post(
         "/api/user/login",
         { email, password },
-        config
+        config,
       );
 
       toast({
@@ -65,7 +65,7 @@ const Login = () => {
     } catch (error) {
       toast({
         title: "Error Occured!",
-        description: error.response.data.message,
+        description: error.response?.data?.message || error.message,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -96,7 +96,15 @@ const Login = () => {
             placeholder="Enter password"
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
+            <Button
+              h="1.75rem"
+              size="sm"
+              bgColor="#07111f"
+              _hover={{
+                bg: "#07111f",
+              }}
+              onClick={handleClick}
+            >
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>

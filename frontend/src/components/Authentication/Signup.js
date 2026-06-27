@@ -8,8 +8,8 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { useState } from "react";
+import api from "../../config/axios";
+import { useState, useRef } from "react";
 import { useHistory } from "react-router";
 import { ChatState } from "../../Context/ChatProvider";
 
@@ -19,6 +19,7 @@ const Signup = () => {
   const toast = useToast();
   const history = useHistory();
   const { setUser } = ChatState();
+  const fileInputRef = useRef(null);
 
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -58,7 +59,7 @@ const Signup = () => {
           "Content-type": "application/json",
         },
       };
-      const { data } = await axios.post(
+      const { data } = await api.post(
         "/api/user",
         {
           name,
@@ -66,7 +67,7 @@ const Signup = () => {
           password,
           pic,
         },
-        config
+        config,
       );
       toast({
         title: "Registration Successful",
@@ -170,7 +171,15 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
+            <Button
+              h="1.75rem"
+              size="sm"
+              bgColor="#07111f"
+              _hover={{
+                bg: "#07111f",
+              }}
+              onClick={handleClick}
+            >
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -185,7 +194,15 @@ const Signup = () => {
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
           <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
+            <Button
+              h="1.75rem"
+              size="sm"
+              bgColor="#07111f"
+              _hover={{
+                bg: "#07111f",
+              }}
+              onClick={handleClick}
+            >
               {show ? "Hide" : "Show"}
             </Button>
           </InputRightElement>
@@ -193,12 +210,29 @@ const Signup = () => {
       </FormControl>
       <FormControl id="pic">
         <FormLabel>Upload your Picture</FormLabel>
+
         <Input
+          ref={fileInputRef}
           type="file"
-          p={1.5}
           accept="image/*"
+          display="none"
           onChange={(e) => postDetails(e.target.files[0])}
         />
+
+        <Button
+          bg="#07111f"
+          color="white"
+          _hover={{ bg: "#0d1b2a" }}
+          onClick={() => fileInputRef.current.click()}
+        >
+          Choose File
+        </Button>
+
+        {pic && (
+          <Button mt={2} size="sm" variant="ghost" color="green.400" isDisabled>
+            ✓ Image Selected
+          </Button>
+        )}
       </FormControl>
       <Button
         colorScheme="blue"
