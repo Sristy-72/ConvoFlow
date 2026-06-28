@@ -175,4 +175,4 @@ This project demonstrates full-stack development skills with authentication, pro
 
 Developed by Sristy.
 
-- LinkedIn: https://www.linkedin.com/in/sristy-720158266/
+[LinkedIn](https://www.linkedin.com/in/your-profile/)
