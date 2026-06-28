@@ -18,10 +18,15 @@ const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || "")
   .map((origin) => origin.trim())
   .filter(Boolean);
 
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  return allowedOrigins.includes(origin);
+};
+
 app.use((req, res, next) => {
   const origin = req.headers.origin;
 
-  if (origin && allowedOrigins.includes(origin)) {
+  if (origin && isAllowedOrigin(origin)) {
     res.header("Access-Control-Allow-Origin", origin);
     res.header("Vary", "Origin");
   }
@@ -30,15 +35,20 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
 
   if (req.method === "OPTIONS") {
+    if (origin && !isAllowedOrigin(origin)) {
+      console.warn(`Blocked CORS preflight from origin: ${origin}`);
+      return res.sendStatus(403);
+    }
+
     return res.sendStatus(204);
   }
 
   next();
 });
 
-// app.get("/", (req, res) => {
-//   res.send("API Running!");
-// });
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
