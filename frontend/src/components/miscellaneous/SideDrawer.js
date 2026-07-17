@@ -186,7 +186,7 @@ function SideDrawer() {
               ))}
             </MenuList>
           </Menu>
-          <Menu>
+          <Menu zIndex={3}>
             <MenuButton
               as={Button}
               bg="rgba(15, 23, 42, 0.6)"
