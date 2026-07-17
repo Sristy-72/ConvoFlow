@@ -205,7 +205,13 @@ function SideDrawer() {
             </MenuButton>
             <MenuList bg="#0f172a" borderColor="rgba(148, 163, 184, 0.25)">
               <ProfileModal user={user}>
-                <MenuItem bg="#0f172a" _hover={{ bg: "rgba(56, 189, 248, 0.14)" }}>
+                <MenuItem 
+                bg="#0f172a"
+                  color="white"
+                  _hover={{ bg: "rgba(56, 189, 248, 0.14)" }}
+                  _focus={{ bg: "rgba(56, 189, 248, 0.14)" }}
+                  _active={{ bg: "rgba(56, 189, 248, 0.22)" }}
+                >
                   My Profile
                 </MenuItem>{" "}
               </ProfileModal>
