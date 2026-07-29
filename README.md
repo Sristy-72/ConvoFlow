@@ -6,7 +6,7 @@ ConvoFlow is a full-stack real-time chat application built with the MERN stack. 
 
 - Frontend URL: http://localhost:3000
 - Backend URL: http://localhost:5000
-- Backend Deployment: https://convoflow-api.onrender.com
+- Backend Deployment: https://convoflow-eie7.onrender.com/
 - Frontend Deployment: https://convo-flow-gamma.vercel.app/
 
 ## Features
