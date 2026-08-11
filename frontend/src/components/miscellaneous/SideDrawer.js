@@ -167,7 +167,11 @@ function SideDrawer() {
               />
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
-            <MenuList pl={2} bg="#0f172a" borderColor="rgba(148, 163, 184, 0.25)">
+            <MenuList
+              pl={2}
+              bg="#0f172a"
+              borderColor="rgba(148, 163, 184, 0.25)"
+            >
               {!notification.length && "No New Messages"}
               {notification.map((notif) => (
                 <MenuItem
@@ -205,15 +209,15 @@ function SideDrawer() {
             </MenuButton>
             <MenuList bg="#0f172a" borderColor="rgba(148, 163, 184, 0.25)">
               <ProfileModal user={user}>
-                <MenuItem 
-                bg="#0f172a"
+                <MenuItem
+                  bg="#0f172a"
                   color="white"
                   _hover={{ bg: "rgba(56, 189, 248, 0.14)" }}
                   _focus={{ bg: "rgba(56, 189, 248, 0.14)" }}
                   _active={{ bg: "rgba(56, 189, 248, 0.22)" }}
                 >
                   My Profile
-                </MenuItem>{" "}
+                </MenuItem>
               </ProfileModal>
               <MenuDivider />
               <MenuItem
@@ -231,7 +235,10 @@ function SideDrawer() {
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent bg="#0f172a" color="white">
-          <DrawerHeader borderBottomWidth="1px" borderColor="rgba(148, 163, 184, 0.2)">
+          <DrawerHeader
+            borderBottomWidth="1px"
+            borderColor="rgba(148, 163, 184, 0.2)"
+          >
             Search Users
           </DrawerHeader>
           <DrawerBody pt={4}>
