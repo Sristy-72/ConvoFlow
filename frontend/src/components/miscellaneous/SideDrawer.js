@@ -13,6 +13,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Portal,
   Spinner,
   Text,
   Tooltip,
@@ -208,27 +209,37 @@ function SideDrawer() {
                 src={user.pic}
               />
             </MenuButton>
-            <MenuList bg="#0f172a" borderColor="rgba(148, 163, 184, 0.25)">
-              <ProfileModal user={user}>
+            <Portal>
+              <MenuList
+                bg="#0f172a"
+                color="white"
+                borderColor="rgba(148, 163, 184, 0.25)"
+                zIndex={2000}
+              >
+                <ProfileModal user={user}>
+                  <MenuItem
+                    bg="#0f172a"
+                    color="white"
+                    _hover={{ bg: "rgba(56, 189, 248, 0.14)" }}
+                    _focus={{ bg: "rgba(56, 189, 248, 0.14)" }}
+                    _active={{ bg: "rgba(56, 189, 248, 0.22)" }}
+                  >
+                    My Profile
+                  </MenuItem>
+                </ProfileModal>
+                <MenuDivider />
                 <MenuItem
                   bg="#0f172a"
                   color="white"
-                  _hover={{ bg: "rgba(56, 189, 248, 0.14)" }}
-                  _focus={{ bg: "rgba(56, 189, 248, 0.14)" }}
-                  _active={{ bg: "rgba(56, 189, 248, 0.22)" }}
+                  _hover={{ bg: "rgba(248, 113, 113, 0.16)" }}
+                  _focus={{ bg: "rgba(248, 113, 113, 0.16)" }}
+                  _active={{ bg: "rgba(248, 113, 113, 0.22)" }}
+                  onClick={logoutHandler}
                 >
-                  My Profile
+                  Logout
                 </MenuItem>
-              </ProfileModal>
-              <MenuDivider />
-              <MenuItem
-                bg="#0f172a"
-                _hover={{ bg: "rgba(248, 113, 113, 0.16)" }}
-                onClick={logoutHandler}
-              >
-                Logout
-              </MenuItem>
-            </MenuList>
+              </MenuList>
+            </Portal>
           </Menu>
         </div>
       </Box>

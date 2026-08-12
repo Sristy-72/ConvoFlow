@@ -201,7 +201,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     <>
       {selectedChat ? (
         <>
-          <Text
+          <Box
             fontSize={{ base: "24px", md: "26px" }}
             pb={3}
             px={2}
@@ -210,35 +210,37 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             fontWeight="700"
             color="white"
             display="flex"
-            justifyContent={{ base: "space-between" }}
+            justifyContent="space-between"
             alignItems="center"
           >
-            <IconButton
-              display={{ base: "flex", md: "none" }}
-              icon={<ArrowBackIcon />}
-              onClick={() => setSelectedChat("")}
-              colorScheme="whiteAlpha"
-              borderRadius="8px"
-            />
-            {messages &&
-              (!selectedChat.isGroupChat ? (
-                <>
-                  {getSender(user, selectedChat.users)}
-                  <ProfileModal
-                    user={getSenderFull(user, selectedChat.users)}
-                  />
-                </>
-              ) : (
-                <>
-                  {selectedChat.chatName.toUpperCase()}
-                  <UpdateGroupChatModal
-                    fetchMessages={fetchMessages}
-                    fetchAgain={fetchAgain}
-                    setFetchAgain={setFetchAgain}
-                  />
-                </>
-              ))}
-          </Text>
+            <Box display="flex" alignItems="center" minW={0}>
+              <IconButton
+                display="flex"
+                icon={<ArrowBackIcon />}
+                onClick={() => setSelectedChat("")}
+                colorScheme="whiteAlpha"
+                borderRadius="8px"
+                bg="#6156565c"
+                _hover={{ bg: "#e6dada5c" }}
+                mr={2}
+                aria-label="Close chat"
+              />
+              <Text as="span" noOfLines={1}>
+                {!selectedChat.isGroupChat
+                  ? getSender(user, selectedChat.users)
+                  : selectedChat.chatName.toUpperCase()}
+              </Text>
+            </Box>
+            {!selectedChat.isGroupChat ? (
+              <ProfileModal user={getSenderFull(user, selectedChat.users)} />
+            ) : (
+              <UpdateGroupChatModal
+                fetchMessages={fetchMessages}
+                fetchAgain={fetchAgain}
+                setFetchAgain={setFetchAgain}
+              />
+            )}
+          </Box>
           <Box
             display="flex"
             flexDir="column"
