@@ -3,6 +3,8 @@ import {
   FormControl,
   IconButton,
   Input,
+  InputGroup,
+  InputRightElement,
   Spinner,
   Text,
   useToast,
@@ -11,7 +13,7 @@ import "./styles.css";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import { useCallback, useEffect, useRef, useState } from "react";
 import api from "../config/axios";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import ProfileModal from "./miscellaneous/ProfileModal";
 import ScrollableChat from "./ScrollableChat";
 import Lottie from "react-lottie";
@@ -77,42 +79,48 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   }, [selectedChat, toast, user]);
 
-  const sendMessage = async (event) => {
-    if (event.key === "Enter" && newMessage.trim() && selectedChat && user) {
-      socket?.emit("stop typing", selectedChat._id);
-      setTyping(false);
-      clearTimeout(typingTimeoutRef.current);
-      const messageToSend = newMessage.trim();
+  const sendMessage = async () => {
+    if (!newMessage.trim() || !selectedChat || !user) return;
 
-      try {
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        };
-        setNewMessage("");
-        const { data } = await api.post(
-          "/api/message",
-          {
-            content: messageToSend,
-            chatId: selectedChat._id,
-          },
-          config,
-        );
-        socket?.emit("new message", data);
-        setMessages((prevMessages) => [...prevMessages, data]);
-      } catch (error) {
-        toast({
-          title: "Error Occured!",
-          description:
-            error.response?.data?.message || "Failed to send the Message",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: "bottom",
-        });
-      }
+    socket?.emit("stop typing", selectedChat._id);
+    setTyping(false);
+    clearTimeout(typingTimeoutRef.current);
+    const messageToSend = newMessage.trim();
+
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+      setNewMessage("");
+      const { data } = await api.post(
+        "/api/message",
+        {
+          content: messageToSend,
+          chatId: selectedChat._id,
+        },
+        config,
+      );
+      socket?.emit("new message", data);
+      setMessages((prevMessages) => [...prevMessages, data]);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description:
+          error.response?.data?.message || "Failed to send the Message",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
+  const handleMessageKeyDown = (event) => {
+    if (event.key === "Enter") {
+      sendMessage();
     }
   };
 
@@ -259,12 +267,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               </div>
             )}
 
-            <FormControl
-              onKeyDown={sendMessage}
-              id="first-name"
-              isRequired
-              mt={3}
-            >
+            <FormControl id="first-name" isRequired mt={3}>
               {istyping ? (
                 <div>
                   <Lottie
@@ -277,23 +280,39 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
-              <Input
-                variant="filled"
-                bg="rgba(15, 23, 42, 0.92)"
-                color="white"
-                borderWidth="1px"
-                borderColor="rgba(148, 163, 184, 0.25)"
-                borderRadius="8px"
-                placeholder="Enter a message.."
-                _placeholder={{ color: "rgba(226, 232, 240, 0.58)" }}
-                _hover={{ bg: "rgba(15, 23, 42, 0.98)" }}
-                _focus={{
-                  bg: "rgba(15, 23, 42, 0.98)",
-                  borderColor: "#38bdf8",
-                }}
-                value={newMessage}
-                onChange={typingHandler}
-              />
+
+              <InputGroup>
+                <Input
+                  variant="filled"
+                  bg="rgba(15, 23, 42, 0.92)"
+                  color="white"
+                  borderWidth="1px"
+                  borderColor="rgba(148, 163, 184, 0.25)"
+                  borderRadius="8px"
+                  placeholder="Enter a message.."
+                  _placeholder={{ color: "rgba(226, 232, 240, 0.58)" }}
+                  _hover={{ bg: "rgba(15, 23, 42, 0.98)" }}
+                  _focus={{
+                    bg: "rgba(15, 23, 42, 0.98)",
+                    borderColor: "#38bdf8",
+                  }}
+                  pr="3rem"
+                  value={newMessage}
+                  onChange={typingHandler}
+                  onKeyDown={handleMessageKeyDown}
+                />
+                <InputRightElement width="3rem">
+                  <IconButton
+                    aria-label="Send message"
+                    icon={<ArrowForwardIcon />}
+                    size="sm"
+                    colorScheme="cyan"
+                    borderRadius="8px"
+                    isDisabled={!newMessage.trim()}
+                    onClick={sendMessage}
+                  />
+                </InputRightElement>
+              </InputGroup>
             </FormControl>
           </Box>
         </>
