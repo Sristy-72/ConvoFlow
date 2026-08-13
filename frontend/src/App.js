@@ -1,8 +1,10 @@
 import "./App.css";
-import Homepage from "./Pages/Homepage";
+import { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
-import Chatpage from "./Pages/Chatpage";
-import backgroundImage from "./background.png";
+import backgroundImage from "./background-optimized.jpg";
+
+const Homepage = lazy(() => import("./Pages/Homepage"));
+const Chatpage = lazy(() => import("./Pages/Chatpage"));
 
 function App() {
   return (
@@ -10,8 +12,10 @@ function App() {
       className="App"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <Route path="/" component={Homepage} exact />
-      <Route path="/chats" component={Chatpage} />
+      <Suspense fallback={null}>
+        <Route path="/" component={Homepage} exact />
+        <Route path="/chats" component={Chatpage} />
+      </Suspense>
     </div>
   );
 }
